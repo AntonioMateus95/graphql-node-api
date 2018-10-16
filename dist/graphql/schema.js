@@ -28,7 +28,14 @@ const typeDefs = `
         createUser(name: String!, email: String!): User
     }
 `;
+//O GraphQL não nos obriga a criar resolvers triviais, pois campos de tipos escalares não precisam ser resolvidos
+//Para simular a situação em que há a necessidade de resolvê-los, veja a implementação do resolver para o tipo User
 const resolvers = {
+    User: {
+        id: (user) => user.id,
+        name: (user) => user.name,
+        email: (user) => user.email,
+    },
     Query: {
         allUsers: () => users
     },
