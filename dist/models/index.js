@@ -19,6 +19,8 @@ let db = null;
 //instância do banco de dados
 if (!db) {
     db = {};
+    const operatorsAliases = false;
+    config = Object.assign({ operatorsAliases }, config);
     //já preparamos o sequelize para trabalhar com o banco de dados Mysql
     const sequelize = new Sequelize(config.database, config.username, config.password, config);
     //agora precisamos das models

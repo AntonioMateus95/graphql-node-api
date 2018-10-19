@@ -23,6 +23,10 @@ let db = null;
 if (!db) {
     db = {};
     
+    const operatorsAliases = false;
+
+    config = Object.assign({operatorsAliases}, config);
+
     //já preparamos o sequelize para trabalhar com o banco de dados Mysql
     const sequelize: Sequelize.Sequelize = new Sequelize(
         config.database,
