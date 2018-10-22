@@ -75,8 +75,4 @@ typings/
 # Serverless directories
 .serverless
 
-# Package lock file
-package-lock.json
-
-
 # End of https://www.gitignore.io/api/node
