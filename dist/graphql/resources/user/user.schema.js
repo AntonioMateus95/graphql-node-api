@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 //tudo que escrevermos usando #, como no exemplo abaixo, é encarado
 //como comentário, e usado no Graphi para informação adicional
 /* No GraphQL quando queremos enviar dados através de uma mutation,
@@ -31,14 +33,14 @@ const userTypes = `
         password: String!
     }
 `;
-
+exports.userTypes = userTypes;
 const userQueries = `
     # retorna uma lista paginada baseada nos parâmetros enviados, ou em valores default
     users(limit: Int, offset: Int): [ User! ]!
     # get by id
     user(id: ID!): User
 `;
-
+exports.userQueries = userQueries;
 const userMutations = `
     createUser(input: UserCreateInput!): User
     updateUser(id: ID!, input: UserUpdateInput!): User
@@ -46,10 +48,5 @@ const userMutations = `
     updateUserPassword(id: ID!, input: UserUpdatePasswordInput!): Boolean
     # retorna se o usuário pôde ser excluído
     deleteUser(id: ID!): Boolean
-`; 
-
-export { 
-    userTypes,
-    userQueries,
-    userMutations
-}
+`;
+exports.userMutations = userMutations;
