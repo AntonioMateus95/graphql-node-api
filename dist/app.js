@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //o alias abaixo é um nome para o módulo sendo importado
 const express = require("express");
 const graphqlHTTP = require("express-graphql");
+const index_1 = require("./models/index");
 const schema_1 = require("./graphql/schema");
 class App {
     constructor() {
@@ -18,10 +19,20 @@ class App {
         // })
         //a variável NODE_ENV abaixo deve ser setada no package.json no script que chama o nodemon
         //se estivermos no windows, a variável deverá ser setada usando o comando set NODE_ENV = development
-        this.express.use('/graphql', graphqlHTTP({
+        //graphqlHTTP: middleware que cria um servidor GraphQL para trabalhar com requisições HTTP
+        this.express.use('/graphql', (req, res, next) => {
+            //pega a instância do DB Connection e coloca dentro de um atributo da requisição
+            //com isso podemos pegar a DB Connection de dentro de todos os resolvers que criarmos
+            /* isso será ainda mais necessário quando tivermos a camada de autenticação: o token vem dentro
+            da request e se não fizéssemos assim, não seria possível colocar o token dentro do contexto. */
+            req['context'] = {};
+            req['context'].db = index_1.default;
+            next(); //chama o próximo middleware
+        }, graphqlHTTP((req) => ({
             schema: schema_1.default,
-            graphiql: process.env.NODE_ENV === 'development'
-        }));
+            graphiql: process.env.NODE_ENV === 'development',
+            context: req['context']
+        })));
     }
 }
 //exportar uma instãncia da aplicação Express
