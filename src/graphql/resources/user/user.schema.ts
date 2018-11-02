@@ -23,8 +23,8 @@ const userTypes = `
     input UserUpdateInput {
         name: String!
         email: String!
-        # uma foto é necessária na atualização, mas pode permitir nulo novamente
-        photo: String
+        # se a foto é passada na atualização, o tipo não admite valores nulos
+        photo: String!
     }
 
     input UserUpdatePasswordInput {
