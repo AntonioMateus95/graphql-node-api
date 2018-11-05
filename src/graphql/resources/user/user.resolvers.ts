@@ -6,6 +6,16 @@ import { UserInstance } from "../../../models/UserModel";
 
 //artimanha do EcmaScript 6: desestruturação de objetos
 export const userResolvers = {
+    User: {
+        posts: (user: UserInstance, { first = 10, offset = 0 }, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
+            //uma instância do sequelize possui um método get para retornar o valor de um atributo do objeto que estamos trabalhando
+            return db.Post.findAll({
+                where: { author: user.get('id') },
+                limit: first,
+                offset: offset
+            });
+        }
+    },
     Query: {
         users: (parent, { limit = 10, offset = 0 }, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
             //deverá ser feito um select em nosso banco de dados para retornar uma lista paginada de usuários
