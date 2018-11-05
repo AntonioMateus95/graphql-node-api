@@ -91,6 +91,16 @@ export default (sequelize: Sequelize.Sequelize, dataTypes: Sequelize.DataTypes):
                     //para isso será mecessário instalar um outro pacote do NPM: bcript
                     const salt = genSaltSync();
                     user.password = hashSync(user.password, salt);
+                },
+                beforeUpdate: (user: UserInstance, options: Sequelize.CreateOptions): void => {
+                    /* Precisamos também de uma forma de verificar quando a senha foi alterada 
+                    pois o código abaixo só deve ser aplicado quando APENAS a mutation de alterar 
+                    senha for chamada: */
+                    //se o campo password estiver sendo alterado:
+                    if (user.changed('password')) {
+                        const salt = genSaltSync();
+                        user.password = hashSync(user.password, salt);
+                    }
                 }
             }
         });
