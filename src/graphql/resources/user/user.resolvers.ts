@@ -3,6 +3,7 @@ import { DbConnection } from "../../../interfaces/DbConnectionInterface";
 import { parseNamedType } from "graphql/language/parser";
 import { Transaction } from "sequelize";
 import { UserInstance } from "../../../models/UserModel";
+import { handleError } from "../../../utils/utils";
 
 //artimanha do EcmaScript 6: desestruturação de objetos
 export const userResolvers = {
@@ -13,7 +14,7 @@ export const userResolvers = {
                 where: { author: user.get('id') },
                 limit: first,
                 offset: offset
-            });
+            }).catch(handleError);
         }
     },
     Query: {
@@ -22,14 +23,14 @@ export const userResolvers = {
             return db.User.findAll({
                 limit: limit,
                 offset: offset
-            });
+            }).catch(handleError);
         },
         user: (parent, {id}, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
             return db.User.findById(id)
             .then((user: UserInstance) => {
                 if (!user) throw new Error(`User with id ${id} not found`);
                 return user;
-            });
+            }).catch(handleError);
         }
     },
 
@@ -42,7 +43,7 @@ export const userResolvers = {
                     .create(input, {
                         transaction: t
                     });
-            })
+            }).catch(handleError);
         },
         updateUser: (parent, {id, input}, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
             /* o tipo ID é convertido para String, mas como estamos trabalhando com inteiros,
@@ -55,7 +56,7 @@ export const userResolvers = {
                         if (!user) throw new Error(`User with id ${id} not found`);
                         return user.update(input, { transaction: t });
                     });
-            });
+            }).catch(handleError);
         },
         updateUserPassword: (parent, {id, input}, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
             id = parseInt(id);
@@ -72,7 +73,7 @@ export const userResolvers = {
                                 return !!user;
                             });
                     });
-            });
+            }).catch(handleError);
         },
         deleteUser: (parent, {id}, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
             id = parseInt(id);
@@ -84,7 +85,7 @@ export const userResolvers = {
                         return user.destroy({ transaction: t })
                             .then(user => !!user);
                     });
-            })
+            }).catch(handleError);
         }
     }
 }

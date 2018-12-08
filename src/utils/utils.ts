@@ -35,3 +35,10 @@ export const onListening = (server: Server) => {
         console.log(`Listening at ${bind}...`);
     }
 }
+
+export const handleError = (error: Error) => {
+    //manipulador de erros que trabalha com promise: o utilizaremos no catch das promises
+    let errorMessage: string = `${error.name}: ${error.message}`;
+    console.log(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+};
