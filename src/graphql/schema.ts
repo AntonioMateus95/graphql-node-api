@@ -27,7 +27,7 @@ const SchemaDefinition = `
     type Schema {
         query: Query
         mutation: Mutation
-    }Unauthorized, wrong email or password!
+    }
 `; 
 
 export default makeExecutableSchema({

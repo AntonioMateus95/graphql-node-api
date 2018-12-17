@@ -6,13 +6,15 @@ const query_1 = require("./query");
 const mutation_1 = require("./mutation");
 const comment_schema_1 = require("./resources/comment/comment.schema");
 const post_schema_1 = require("./resources/post/post.schema");
+const token_schema_1 = require("./resources/token/token.schema");
 const user_schema_1 = require("./resources/user/user.schema");
 const comment_resolvers_1 = require("./resources/comment/comment.resolvers");
 const post_resolvers_1 = require("./resources/post/post.resolvers");
+const token_resolvers_1 = require("./resources/token/token.resolvers");
 const user_resolvers_1 = require("./resources/user/user.resolvers");
 //precisamos de uma forma de mesclar todas as queries e mutations feitas em arquivos separados:
 //para isso usamos uma função do lodash chamada merge. Como o próprio nome já diz, ela pega os atributos iguais de uma série de objetos e mescla os seus conteúdos
-const resolvers = lodash_1.merge(comment_resolvers_1.commentResolvers, post_resolvers_1.postResolvers, user_resolvers_1.userResolvers);
+const resolvers = lodash_1.merge(comment_resolvers_1.commentResolvers, post_resolvers_1.postResolvers, token_resolvers_1.tokenResolvers, user_resolvers_1.userResolvers);
 const SchemaDefinition = `
     type Schema {
         query: Query
@@ -26,6 +28,7 @@ exports.default = graphql_tools_1.makeExecutableSchema({
         mutation_1.Mutation,
         comment_schema_1.commentTypes,
         post_schema_1.postTypes,
+        token_schema_1.tokenTypes,
         user_schema_1.userTypes
     ],
     resolvers
