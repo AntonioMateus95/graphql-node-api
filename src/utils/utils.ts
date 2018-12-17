@@ -42,3 +42,7 @@ export const handleError = (error: Error) => {
     console.log(errorMessage);
     return Promise.reject(new Error(errorMessage));
 };
+
+//não é uma boa prática deixar explícita a chave que assina o token dentro do código
+//solução: criar uma variável de ambiente
+export const JWT_SECRET: string = process.env.JWT_SECRET;
