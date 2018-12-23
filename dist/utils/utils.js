@@ -43,6 +43,10 @@ exports.handleError = (error) => {
     console.log(errorMessage);
     return Promise.reject(new Error(errorMessage));
 };
+exports.throwError = (condition, message) => {
+    if (condition)
+        throw new Error(message);
+};
 //não é uma boa prática deixar explícita a chave que assina o token dentro do código
 //solução: criar uma variável de ambiente
 exports.JWT_SECRET = process.env.JWT_SECRET;

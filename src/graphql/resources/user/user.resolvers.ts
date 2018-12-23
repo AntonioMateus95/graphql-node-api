@@ -1,9 +1,11 @@
 import { GraphQLResolveInfo } from "graphql";
 import { DbConnection } from "../../../interfaces/DbConnectionInterface";
-import { parseNamedType } from "graphql/language/parser";
 import { Transaction } from "sequelize";
 import { UserInstance } from "../../../models/UserModel";
 import { handleError } from "../../../utils/utils";
+import { compose } from "../../composable/composable.resolver";
+import { authResolver } from "../../composable/auth.resolver";
+import { verifyTokenResolver } from "../../composable/verify-token.resolver";
 
 //artimanha do EcmaScript 6: desestruturação de objetos
 export const userResolvers = {
