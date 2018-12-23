@@ -7,5 +7,5 @@ export interface ResolverContext {
     //token
     authorization?: string;
     //usuário logado
-    user?: AuthUser;
+    authUser?: AuthUser;
 }

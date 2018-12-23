@@ -33,7 +33,7 @@ exports.extractJwtMiddleware = () => {
                 //se o usuário pôde ser encontrado usando o sub do payload
                 //do token recebido
                 if (user) {
-                    req['context']['user'] = {
+                    req['context']['authUser'] = {
                         id: user.get('id'),
                         email: user.get('email')
                     };

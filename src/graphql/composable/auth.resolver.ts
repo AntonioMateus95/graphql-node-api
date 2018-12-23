@@ -14,7 +14,7 @@ export const authResolver: ComposableResolver<any, ResolverContext> =
         //espécie de callback
         return (parent, args, context: ResolverContext, info) => {
             //aqui só estamos validando se um token foi recebido, mas não se ele está válido
-            if (context.user || context.authorization) {
+            if (context.authUser || context.authorization) {
                 // o resolver recebido como parâmetro se assemelha ao next dos middlewares do Express
                 return resolver(parent, args, context, info);
             }
