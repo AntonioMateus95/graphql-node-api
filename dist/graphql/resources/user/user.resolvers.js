@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("../../../utils/utils");
+const composable_resolver_1 = require("../../composable/composable.resolver");
+const auth_resolver_1 = require("../../composable/auth.resolver");
 //artimanha do EcmaScript 6: desestruturação de objetos
 exports.userResolvers = {
     User: {
@@ -42,28 +44,24 @@ exports.userResolvers = {
                 });
             }).catch(utils_1.handleError);
         },
-        updateUser: (parent, { id, input }, { db }, info) => {
-            /* o tipo ID é convertido para String, mas como estamos trabalhando com inteiros,
-            podemos fazer a conversão abaixo: */
-            id = parseInt(id);
+        updateUser: composable_resolver_1.compose(...auth_resolver_1.authResolvers)((parent, { input }, { db, authUser }, info) => {
+            //aqui utilizamos o operador reticências. No EcmaScript6, esse operador é chamado "spread"
+            //ele literalmente espalha o conteúdo do array para os parâmetros da função
             return db.sequelize.transaction((t) => {
                 return db.User
-                    .findById(id)
+                    .findById(authUser.id)
                     .then((user) => {
-                    if (!user)
-                        throw new Error(`User with id ${id} not found`);
+                    utils_1.throwError(!user, `User with id ${authUser.id} not found`);
                     return user.update(input, { transaction: t });
                 });
             }).catch(utils_1.handleError);
-        },
-        updateUserPassword: (parent, { id, input }, { db }, info) => {
-            id = parseInt(id);
+        }),
+        updateUserPassword: composable_resolver_1.compose(...auth_resolver_1.authResolvers)((parent, { input }, { db, authUser }, info) => {
             return db.sequelize.transaction((t) => {
                 return db.User
-                    .findById(id)
+                    .findById(authUser.id)
                     .then((user) => {
-                    if (!user)
-                        throw new Error(`User with id ${id} not found`);
+                    utils_1.throwError(!user, `User with id ${authUser.id} not found`);
                     return user.update(input, { transaction: t })
                         .then((user) => {
                         //verifica se é um valor válido: 
@@ -73,19 +71,17 @@ exports.userResolvers = {
                     });
                 });
             }).catch(utils_1.handleError);
-        },
-        deleteUser: (parent, { id }, { db }, info) => {
-            id = parseInt(id);
+        }),
+        deleteUser: composable_resolver_1.compose(...auth_resolver_1.authResolvers)((parent, args, { db, authUser }, info) => {
             return db.sequelize.transaction((t) => {
                 return db.User
-                    .findById(id)
+                    .findById(authUser.id)
                     .then((user) => {
-                    if (!user)
-                        throw new Error(`User with id ${id} not found!`);
+                    utils_1.throwError(!user, `User with id ${authUser.id} not found!`);
                     return user.destroy({ transaction: t })
                         .then(user => !!user);
                 });
             }).catch(utils_1.handleError);
-        }
+        })
     }
 };

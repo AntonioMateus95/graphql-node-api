@@ -42,11 +42,11 @@ const userQueries = `
 
 const userMutations = `
     createUser(input: UserCreateInput!): User
-    updateUser(id: ID!, input: UserUpdateInput!): User
+    updateUser(input: UserUpdateInput!): User
     # retorna se a senha do usuário pôde ser alterada
-    updateUserPassword(id: ID!, input: UserUpdatePasswordInput!): Boolean
+    updateUserPassword(input: UserUpdatePasswordInput!): Boolean
     # retorna se o usuário pôde ser excluído
-    deleteUser(id: ID!): Boolean
+    deleteUser: Boolean
 `; 
 
 export { 

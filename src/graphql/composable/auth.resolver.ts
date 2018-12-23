@@ -2,6 +2,7 @@ import { GraphQLFieldResolver } from "graphql";
 
 import { ComposableResolver } from "./composable.resolver";
 import { ResolverContext } from "../../interfaces/ResolverContextInterface";
+import { verifyTokenResolver } from "./verify-token.resolver";
 
 //Resolver reutilizável
 /* Esse pequeno resolver servirá apenas para verificar
@@ -23,3 +24,5 @@ export const authResolver: ComposableResolver<any, ResolverContext> =
             }
         };
     };
+
+export const authResolvers = [ authResolver, verifyTokenResolver ];

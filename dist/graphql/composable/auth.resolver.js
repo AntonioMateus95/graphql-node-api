@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const verify_token_resolver_1 = require("./verify-token.resolver");
 //Resolver reutilizável
 /* Esse pequeno resolver servirá apenas para verificar
 se a requisição que está sendo feita para uma query ou
@@ -19,3 +20,4 @@ exports.authResolver = (resolver) => {
         }
     };
 };
+exports.authResolvers = [exports.authResolver, verify_token_resolver_1.verifyTokenResolver];
