@@ -10,10 +10,11 @@ const commentTypes = `
         post: Post!        
     }
 
+    # o autor do comentário é o autor logado na api
+    # por isso não é necessário passar o id do mesmo na requisição
     input CommentInput {
         comment: String!
         post: Int!
-        user: Int!
     }
 `;
 exports.commentTypes = commentTypes;
