@@ -38,6 +38,8 @@ const userQueries = `
     users(limit: Int, offset: Int): [ User! ]!
     # get by id
     user(id: ID!): User
+    # retorna as informações do usuário logado
+    currentUser: User
 `;
 
 const userMutations = `
