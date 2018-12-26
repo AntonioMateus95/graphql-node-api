@@ -1,6 +1,7 @@
 import { DbConnection } from "./DbConnectionInterface";
 import { AuthUser } from "./AuthUserInterface";
 import { DataLoaders } from "./DataLoadersInterface";
+import { RequestedFields } from "../graphql/ast/RequestedFields";
 
 export interface ResolverContext {
     //instância do banco de dados aberta para usar no sequelize
@@ -11,4 +12,6 @@ export interface ResolverContext {
     authUser?: AuthUser;
     //data loaders
     dataLoaders?: DataLoaders
+    //requested fields
+    requestedFields?: RequestedFields 
 }

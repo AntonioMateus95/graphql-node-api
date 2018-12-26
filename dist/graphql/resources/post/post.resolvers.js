@@ -25,6 +25,9 @@ exports.postResolvers = {
     },
     Query: {
         posts: (parent, { first = 10, offset = 0 }, { db }, info) => {
+            //é possível especificar nos métodos do sequelize quais campos estão sendo buscados
+            //através do atributo attributes 
+            //olhar a sintaxe através do site http://docs.sequelizejs.com/manual/tutorial/querying.html
             return db.Post
                 .findAll({
                 limit: first,

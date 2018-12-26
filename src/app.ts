@@ -6,10 +6,12 @@ import db from './models/index';
 import schema from './graphql/schema';
 import { extractJwtMiddleware } from './middlewares/extractjwt.middleware';
 import { DataLoaderFactory } from './graphql/dataloaders/DataLoaderFactory';
+import { RequestedFields } from './graphql/ast/RequestedFields';
 
 class App {
     public express: express.Application;
     private dataLoaderFactory: DataLoaderFactory;
+    private requestedFields: RequestedFields;
 
     constructor() {
         this.express = express();
@@ -18,6 +20,7 @@ class App {
 
     private init(): void {
         this.dataLoaderFactory = new DataLoaderFactory(db);
+        this.requestedFields = new RequestedFields();
         this.middleware();
     }
 
@@ -44,6 +47,7 @@ class App {
                 /* O método getLoaders() está sendo chamado aqui porque a cada requisição, precisamos garantir que
                 novas instâncias dos data loaders sejam criadas. Lembre-se que o DataLoader faz uma espécie de cache. */
                 req['context']['dataLoaders'] = this.dataLoaderFactory.getLoaders();
+                req['context']['requestedFields'] = this.requestedFields;
                 next(); //chama o próximo middleware
             },
         

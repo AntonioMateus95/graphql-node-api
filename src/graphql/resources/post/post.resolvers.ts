@@ -1,6 +1,9 @@
+import { GraphQLResolveInfo } from 'graphql';
+import * as graphqlFields from 'graphql-fields';
+
 import { Transaction } from 'sequelize';
 import { DbConnection } from './../../../interfaces/DbConnectionInterface';
-import { GraphQLResolveInfo } from 'graphql';
+
 import { PostInstance } from './../../../models/PostModel';
 import { handleError, throwError } from '../../../utils/utils';
 import { compose } from '../../composable/composable.resolver';
@@ -33,6 +36,9 @@ export const postResolvers = {
 
     Query: {
         posts: (parent, { first = 10, offset = 0 }, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
+            //é possível especificar nos métodos do sequelize quais campos estão sendo buscados
+            //através do atributo attributes 
+            //olhar a sintaxe através do site http://docs.sequelizejs.com/manual/tutorial/querying.html
             return db.Post
                 .findAll({
                     limit: first,
