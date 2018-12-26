@@ -23,7 +23,13 @@ let db = null;
 if (!db) {
     db = {};
     
-    const operatorsAliases = false;
+    /* em uma atualização do Sequelize, foi dito que não era seguro trabalhar com 
+    operadores. Contudo, para usar os data loaders, um operador é necessário. Sendo
+    assim, passaremos um objeto ao invés de false */
+    //const operatorsAliases = false;
+    const operatorsAliases = {
+        $in: Sequelize.Op.in // semelhante ao in do MySQL: select passando uma lista de ids que queremos buscar
+    };
 
     config = Object.assign({operatorsAliases}, config);
 
