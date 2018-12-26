@@ -5,12 +5,19 @@ import * as graphqlHTTP from 'express-graphql';
 import db from './models/index';
 import schema from './graphql/schema';
 import { extractJwtMiddleware } from './middlewares/extractjwt.middleware';
+import { DataLoaderFactory } from './graphql/dataloaders/DataLoaderFactory';
 
 class App {
     public express: express.Application;
+    private dataLoaderFactory: DataLoaderFactory;
 
     constructor() {
         this.express = express();
+        this.init();
+    }
+
+    private init(): void {
+        this.dataLoaderFactory = new DataLoaderFactory(db);
         this.middleware();
     }
 
@@ -34,6 +41,9 @@ class App {
                 /* isso será ainda mais necessário quando tivermos a camada de autenticação: o token vem dentro 
                 da request e se não fizéssemos assim, não seria possível colocar o token dentro do contexto. */
                 req['context']['db'] = db;
+                /* O método getLoaders() está sendo chamado aqui porque a cada requisição, precisamos garantir que
+                novas instâncias dos data loaders sejam criadas. Lembre-se que o DataLoader faz uma espécie de cache. */
+                req['context']['dataLoaders'] = this.dataLoaderFactory.getLoaders();
                 next(); //chama o próximo middleware
             },
         
