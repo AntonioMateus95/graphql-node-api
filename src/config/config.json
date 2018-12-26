@@ -4,13 +4,15 @@
     "password": "root",
     "database": "graphql_blog_development",
     "host": "127.0.0.1",
+    "port": "3306",
     "dialect": "mysql"
   },
   "heroku-ngrok": {
     "username": "root",
     "password": "root",
     "database": "graphql_blog_development",
-    "host": "tcp://0.tcp.ngrok.io:13320",
+    "host": "0.tcp.ngrok.io",
+    "port": "17399",
     "dialect": "mysql"
   },
   "production": {
