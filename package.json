@@ -7,7 +7,7 @@
     "dev": "NODE_ENV=development JWT_SECRET=iron_man node_modules/.bin/nodemon --delay 5 dist/index",
     "devWindows": "cd ./node_modules/.bin SET NODE_ENV=development nodemon --delay 5 ../../dist/index.js",
     "gulp": "node_modules/.bin/gulp",
-    "heroku": "node_modules/.bin/nodemon --delay 5 dist/index"
+    "heroku": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
