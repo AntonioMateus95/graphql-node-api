@@ -5,12 +5,15 @@ const composable_resolver_1 = require("../../composable/composable.resolver");
 const auth_resolver_1 = require("../../composable/auth.resolver");
 exports.postResolvers = {
     Post: {
-        author: (post, args, { db }, info) => {
-            return db.User
-                .findById(post.get('author'))
+        author: (post, args, { dataLoaders: { userLoader } }, info) => {
+            // a cada vez que este resolver for chamado, o user loader irá salvar o id requisitado dentro de uma lista
+            // somente quando nenhum id for fornecido para essa lista, o userLoader transformará a lista de ids em um
+            // conjunto e então usar este conjunto para pegar os respectivos autores 
+            return userLoader
+                .load(post.get('author'))
                 .catch(utils_1.handleError);
         },
-        comments: (post, { first = 10, offset = 10 }, { db }, info) => {
+        comments: (post, { first = 10, offset = 0 }, { db }, info) => {
             return db.Comment
                 .findAll({
                 where: { post: post.get('id') },
@@ -21,7 +24,7 @@ exports.postResolvers = {
         }
     },
     Query: {
-        posts: (parent, { first = 10, offset = 10 }, { db }, info) => {
+        posts: (parent, { first = 10, offset = 0 }, { db }, info) => {
             return db.Post
                 .findAll({
                 limit: first,

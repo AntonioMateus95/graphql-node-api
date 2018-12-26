@@ -6,17 +6,21 @@ import { handleError, throwError } from '../../../utils/utils';
 import { compose } from '../../composable/composable.resolver';
 import { authResolvers } from '../../composable/auth.resolver';
 import { AuthUser } from '../../../interfaces/AuthUserInterface';
+import { DataLoaders } from '../../../interfaces/DataLoadersInterface';
 
 export const postResolvers = {
 
     Post: {
-        author: (post, args, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
-            return db.User
-                .findById(post.get('author'))
+        author: (post, args, {dataLoaders: { userLoader }}: {dataLoaders: DataLoaders}, info: GraphQLResolveInfo) => {
+            // a cada vez que este resolver for chamado, o user loader irá salvar o id requisitado dentro de uma lista
+            // somente quando nenhum id for fornecido para essa lista, o userLoader transformará a lista de ids em um
+            // conjunto e então usar este conjunto para pegar os respectivos autores 
+            return userLoader
+                .load(post.get('author'))
                 .catch(handleError);
         }, 
         
-        comments: (post, { first = 10, offset = 10 }, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
+        comments: (post, { first = 10, offset = 0 }, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
             return db.Comment
                 .findAll({
                     where: { post: post.get('id') },
@@ -28,7 +32,7 @@ export const postResolvers = {
     },
 
     Query: {
-        posts: (parent, { first = 10, offset = 10 }, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
+        posts: (parent, { first = 10, offset = 0 }, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
             return db.Post
                 .findAll({
                     limit: first,
