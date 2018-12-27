@@ -10,7 +10,7 @@ exports.postResolvers = {
             // somente quando nenhum id for fornecido para essa lista, o userLoader transformará a lista de ids em um
             // conjunto e então usar este conjunto para pegar os respectivos autores 
             return userLoader
-                .load(post.get('author'))
+                .load({ key: post.get('author'), info: info })
                 .catch(utils_1.handleError);
         },
         comments: (post, { first = 10, offset = 0 }, context, info) => {

@@ -7,12 +7,12 @@ exports.commentResolvers = {
     Comment: {
         user: (comment, args, { dataLoaders: { userLoader } }, info) => {
             return userLoader
-                .load(comment.get('user'))
+                .load({ key: comment.get('user'), info })
                 .catch(utils_1.handleError);
         },
         post: (comment, args, { dataLoaders: { postLoader } }, info) => {
             return postLoader
-                .load(comment.get('post'))
+                .load({ key: comment.get('post'), info: info })
                 .catch(utils_1.handleError);
         }
     },

@@ -14,8 +14,8 @@ class App {
         this.init();
     }
     init() {
-        this.dataLoaderFactory = new DataLoaderFactory_1.DataLoaderFactory(index_1.default);
         this.requestedFields = new RequestedFields_1.RequestedFields();
+        this.dataLoaderFactory = new DataLoaderFactory_1.DataLoaderFactory(index_1.default, this.requestedFields);
         this.middleware();
     }
     middleware() {
