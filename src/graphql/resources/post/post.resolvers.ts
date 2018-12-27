@@ -20,7 +20,7 @@ export const postResolvers = {
             // somente quando nenhum id for fornecido para essa lista, o userLoader transformará a lista de ids em um
             // conjunto e então usar este conjunto para pegar os respectivos autores 
             return userLoader
-                .load(post.get('author'))
+                .load({ key: post.get('author'), info: info })
                 .catch(handleError);
         }, 
         

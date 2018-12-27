@@ -14,17 +14,17 @@ export const commentResolvers = {
     Comment: {
         user: (comment, args, {dataLoaders: {userLoader}}: {dataLoaders: DataLoaders}, info: GraphQLResolveInfo) => {
             return userLoader
-                .load(comment.get('user'))
+                .load({ key: comment.get('user'), info })
                 .catch(handleError);
         },
 
         post: (comment, args, {dataLoaders: {postLoader}}: {dataLoaders: DataLoaders}, info: GraphQLResolveInfo) => {
             return postLoader
-                .load(comment.get('post'))
+                .load({ key: comment.get('post'), info: info })
                 .catch(handleError);
         }
     },
-
+            
     Query: {
         commentsByPost: (parent, { postId, first = 10, offset = 0 }, context: ResolverContext, info: GraphQLResolveInfo) => {
             postId = parseInt(postId);
