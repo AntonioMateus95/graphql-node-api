@@ -7,6 +7,7 @@ const index_1 = require("./models/index");
 const schema_1 = require("./graphql/schema");
 const extractjwt_middleware_1 = require("./middlewares/extractjwt.middleware");
 const DataLoaderFactory_1 = require("./graphql/dataloaders/DataLoaderFactory");
+const RequestedFields_1 = require("./graphql/ast/RequestedFields");
 class App {
     constructor() {
         this.express = express();
@@ -14,6 +15,7 @@ class App {
     }
     init() {
         this.dataLoaderFactory = new DataLoaderFactory_1.DataLoaderFactory(index_1.default);
+        this.requestedFields = new RequestedFields_1.RequestedFields();
         this.middleware();
     }
     middleware() {
@@ -35,6 +37,7 @@ class App {
             /* O método getLoaders() está sendo chamado aqui porque a cada requisição, precisamos garantir que
             novas instâncias dos data loaders sejam criadas. Lembre-se que o DataLoader faz uma espécie de cache. */
             req['context']['dataLoaders'] = this.dataLoaderFactory.getLoaders();
+            req['context']['requestedFields'] = this.requestedFields;
             next(); //chama o próximo middleware
         }, graphqlHTTP((req) => ({
             schema: schema_1.default,
