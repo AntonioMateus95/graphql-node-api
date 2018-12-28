@@ -13,8 +13,6 @@ describe('Post', () => {
     let postId: number;
 
     beforeEach(() => {
-        //antes de rodar CADA teste (bloco IT) dentro do bloco "User"
-        //precisa-se fazer algumas inserções no banco de dados
         return db.Comment.destroy({ where: { } })
             .then((rows: number) => db.Post.destroy({ where: {} }))
             .then((rows: number) => db.User.destroy({ where: {} }))
