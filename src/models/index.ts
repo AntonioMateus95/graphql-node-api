@@ -44,8 +44,9 @@ if (!db) {
     //agora precisamos das models
     fs.readdirSync(__dirname)
         .filter((file: string) => {
+            const fileSlice: string = file.slice(-3);
             //apenas arquivos com nome válidos, com extensão .js e diferentes do arquivo index.js em que estamos
-            return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+            return (file.indexOf('.') !== 0) && (file !== basename) && ((fileSlice === '.js') || (fileSlice === '.ts'));
         })
         .forEach((file: string) => {
             //para importar um model no sequelize, usamos o método "import"
