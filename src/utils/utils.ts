@@ -39,7 +39,7 @@ export const onListening = (server: Server) => {
 export const handleError = (error: Error) => {
     //manipulador de erros que trabalha com promise: o utilizaremos no catch das promises
     let errorMessage: string = `${error.name}: ${error.message}`;
-    console.log(errorMessage);
+    if (process.env.NODE_ENV !== 'test') { console.log(errorMessage); }
     return Promise.reject(new Error(errorMessage));
 };
 
