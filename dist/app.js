@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //o alias abaixo é um nome para o módulo sendo importado
 const express = require("express");
 const graphqlHTTP = require("express-graphql");
+const cors = require("cors");
+const compression = require("compression");
+const helmet = require("helmet");
 const index_1 = require("./models/index");
 const schema_1 = require("./graphql/schema");
 const extractjwt_middleware_1 = require("./middlewares/extractjwt.middleware");
@@ -19,6 +22,16 @@ class App {
         this.middleware();
     }
     middleware() {
+        //os métodos cors(), compression() e helmet() retornam um RequestHandler
+        this.express.use(cors({
+            origin: '*',
+            methods: ['GET', 'POST'],
+            allowedHeaders: ['Content-Type', 'Authorization', 'Accept-Encoding'],
+            preflightContinue: false,
+            optionsSuccessStatus: 204
+        }));
+        this.express.use(compression());
+        this.express.use(helmet());
         //o método use serve para todos os tipos de requisição
         // this.express.use('/hello', (req: express.Request, res: express.Response, next: express.NextFunction) => {
         //     res.send({
