@@ -1,14 +1,15 @@
 //o alias abaixo é um nome para o módulo sendo importado
 import * as express from 'express';
 import * as graphqlHTTP from 'express-graphql';
+import * as cors from 'cors';
+import * as compression from 'compression';
+import * as helmet from 'helmet';
 
 import db from './models/index';
 import schema from './graphql/schema';
 import { extractJwtMiddleware } from './middlewares/extractjwt.middleware';
 import { DataLoaderFactory } from './graphql/dataloaders/DataLoaderFactory';
 import { RequestedFields } from './graphql/ast/RequestedFields';
-import * as cors from 'cors';
-import * as compression from 'compression';
 
 class App {
     public express: express.Application;
@@ -27,7 +28,7 @@ class App {
     }
 
     private middleware() : void {
-        //os métodos cors() e compression() retornam um RequestHandler
+        //os métodos cors(), compression() e helmet() retornam um RequestHandler
         this.express.use(cors({
             origin: '*', //qualquer domínio consegue acessar a nossa API
             methods: ['GET', 'POST'], //já que estamos trabalhando com uma api GraphQL
@@ -37,6 +38,8 @@ class App {
         }));
 
         this.express.use(compression());
+
+        this.express.use(helmet());
 
         //o método use serve para todos os tipos de requisição
         // this.express.use('/hello', (req: express.Request, res: express.Response, next: express.NextFunction) => {
