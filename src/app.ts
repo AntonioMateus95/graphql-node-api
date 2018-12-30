@@ -7,6 +7,8 @@ import schema from './graphql/schema';
 import { extractJwtMiddleware } from './middlewares/extractjwt.middleware';
 import { DataLoaderFactory } from './graphql/dataloaders/DataLoaderFactory';
 import { RequestedFields } from './graphql/ast/RequestedFields';
+import * as cors from 'cors';
+import * as compression from 'compression';
 
 class App {
     public express: express.Application;
@@ -25,6 +27,17 @@ class App {
     }
 
     private middleware() : void {
+        //os métodos cors() e compression() retornam um RequestHandler
+        this.express.use(cors({
+            origin: '*', //qualquer domínio consegue acessar a nossa API
+            methods: ['GET', 'POST'], //já que estamos trabalhando com uma api GraphQL
+            allowedHeaders: ['Content-Type', 'Authorization', 'Accept-Encoding'], //a API aceitará requisições compactadas
+            preflightContinue: false,
+            optionsSuccessStatus: 204
+        }));
+
+        this.express.use(compression());
+
         //o método use serve para todos os tipos de requisição
         // this.express.use('/hello', (req: express.Request, res: express.Response, next: express.NextFunction) => {
         //     res.send({
