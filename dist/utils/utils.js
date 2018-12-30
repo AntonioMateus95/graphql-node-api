@@ -40,7 +40,9 @@ exports.onListening = (server) => {
 exports.handleError = (error) => {
     //manipulador de erros que trabalha com promise: o utilizaremos no catch das promises
     let errorMessage = `${error.name}: ${error.message}`;
-    console.log(errorMessage);
+    if (process.env.NODE_ENV !== 'test') {
+        console.log(errorMessage);
+    }
     return Promise.reject(new Error(errorMessage));
 };
 exports.throwError = (condition, message) => {

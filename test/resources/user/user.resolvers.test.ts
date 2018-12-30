@@ -199,6 +199,35 @@ describe('User', () => {
                         }).catch(handleError)
                 });
             });
+
+            describe('currentUser', () => {
+                it('should return the User owner of the token', () => {
+                    let body = {
+                        query: `
+                            query  {
+                                currentUser  {
+                                    name
+                                    email
+                                }
+                            }
+                        `,
+                    };
+
+                    return chai.request(app)
+                        .post('/graphql') 
+                        .set('content-type', 'application/json')
+                        .set('authorization', `Bearer ${userToken}`)
+                        .send(JSON.stringify(body))
+                        .then((res: ChaiHttp.Response) => {
+                            const currentUser = res.body.data.currentUser; 
+                            expect(res.body.data).to.be.an('object');
+                            expect(currentUser).to.be.an('object');
+                            expect(currentUser).to.have.keys(['name', 'email']);
+                            expect(currentUser.name).to.equal('Peter Quill');    
+                            expect(currentUser.email).to.equal('peter@guardians.com');    
+                        }).catch(handleError)
+                });
+            });
         });
     });
 
@@ -401,6 +430,24 @@ describe('User', () => {
                         .send(JSON.stringify(body))
                         .then(res => {
                             expect(res.body.data.deleteUser).to.be.true;
+                        }).catch(handleError);
+                });
+
+                it('should block operation if token is not provided', () => {
+                    let body = {
+                        query: `
+                            mutation {
+                                deleteUser
+                            }
+                        `
+                    };
+
+                    return chai.request(app)
+                        .post('/graphql')
+                        .set('content-type', 'application/json')
+                        .send(JSON.stringify(body))
+                        .then(res => {
+                            expect(res.body.errors[0].message).to.equal('Unauthorized: Token not provided!');
                         }).catch(handleError);
                 });
             })

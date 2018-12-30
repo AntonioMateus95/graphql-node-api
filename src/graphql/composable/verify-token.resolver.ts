@@ -10,7 +10,7 @@ export const verifyTokenResolver: ComposableResolver<any, ResolverContext> =
 
         return (parent, args, context: ResolverContext, info) => {
         
-            const token: string = context.authorization ? context.authorization.split(' ')[1] : undefined; //Bearer ahgagdghs
+            const token: string = context.authorization.split(' ')[1]; //Bearer ahgagdghs
 
             return jwt.verify(token, JWT_SECRET, (err, payload: any) => {
                 if (!err) {

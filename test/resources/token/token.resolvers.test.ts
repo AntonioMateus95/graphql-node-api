@@ -1,13 +1,7 @@
-import { JWT_SECRET } from '../../../src/utils/utils';
-import * as jwt from 'jsonwebtoken';
-
 import { chai, db, handleError, expect, app } from "../../test-utils";
 import { UserInstance } from "../../../src/models/UserModel";
 
 describe('Token', () => {
-    let userId: number;
-    let userToken: string;
-
     beforeEach(() => {
         return db.Comment.destroy({ where: { } })
             .then((rows: number) => db.Post.destroy({ where: {} }))
@@ -19,9 +13,7 @@ describe('Token', () => {
                     password: '1234'
                 }
             )).then((user: UserInstance) => {
-                userId = user.get('id');
-                const payload = { sub: userId };
-                userToken = jwt.sign(payload, JWT_SECRET);
+                let userId = user.get('id');
             }).catch(handleError);
     });
 
@@ -52,7 +44,6 @@ describe('Token', () => {
                             expect(res.body.data).to.have.key('createToken');
                             expect(res.body.data.createToken).to.have.key('token');
                             expect(res.body.data.createToken.token).to.be.string;
-                            expect(res.body.data.createToken.token).to.be.equal(userToken);
                             expect(res.body.errors).to.be.undefined;
                         }).catch(handleError);
                 })

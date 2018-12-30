@@ -8,7 +8,8 @@
     "devWindows": "cd ./node_modules/.bin SET NODE_ENV=development nodemon --delay 5 ../../dist/index.js",
     "gulp": "node_modules/.bin/gulp",
     "heroku": "node dist/index.js",
-    "test": "NODE_ENV=test JWT_SECRET=jwt_test mocha"
+    "test": "NODE_ENV=test JWT_SECRET=jwt_test mocha",
+    "coverage": "nyc --extension .ts --include 'src/**/*.ts' --reporter html npm test"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +33,7 @@
     "gulp-typescript": "3.2.2",
     "mocha": "4.0.1",
     "nodemon": "1.12.0",
+    "nyc": "11.3.0",
     "ts-node": "3.3.0",
     "typescript": "2.5.3"
   },
