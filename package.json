@@ -33,13 +33,13 @@
     "@types/node": "8.0.34",
     "@types/sequelize": "4.0.76",
     "chai": "4.1.2",
-    "chai-http": "3.0.0",
-    "gulp": "3.9.1",
-    "gulp-clean": "0.3.2",
-    "gulp-typescript": "3.2.2",
-    "mocha": "4.0.1",
-    "nodemon": "1.12.0",
-    "nyc": "11.3.0",
+    "chai-http": "^4.3.0",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-typescript": "^5.0.1",
+    "mocha": "^8.0.1",
+    "nodemon": "^2.0.4",
+    "nyc": "^15.1.0",
     "ts-node": "3.3.0",
     "typescript": "2.5.3"
   },
@@ -54,10 +54,10 @@
     "graphql": "0.11.7",
     "graphql-fields": "1.0.2",
     "graphql-tools": "2.3.0",
-    "helmet": "3.9.0",
+    "helmet": "^3.23.3",
     "jsonwebtoken": "8.1.0",
-    "lodash": "4.17.4",
+    "lodash": "^4.17.19",
     "mysql2": "1.4.2",
-    "sequelize": "4.13.10"
+    "sequelize": "^6.3.3"
   }
 }
