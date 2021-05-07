@@ -56,7 +56,7 @@
     "graphql-tools": "2.3.0",
     "helmet": "^3.23.3",
     "jsonwebtoken": "8.1.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "mysql2": "1.4.2",
     "sequelize": "^6.3.3",
     "diff": ">=3.5.0"
